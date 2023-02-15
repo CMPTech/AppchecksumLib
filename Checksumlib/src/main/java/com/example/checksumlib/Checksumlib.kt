@@ -6,24 +6,22 @@ import android.content.pm.Signature
 import android.util.Log
 
 object Checksumlib{
-    @Volatile
-    lateinit var appContext: Context
-    val packageName = appContext.packageName
-    val pm = appContext.packageManager
-    val ai = pm.getApplicationInfo(packageName, 0)
-    val srcDir = ai.publicSourceDir
 
-    fun primary(){
-        checkSignatures(srcDir)
+     fun primary(context: Context){
+        val packageName = context.packageName
+        val pm = context.packageManager
+        val ai = pm.getApplicationInfo(packageName, 0)
+        val srcDir = ai.publicSourceDir
+        checkSignatures(srcDir,context)
     }
 
-     fun checkSignatures(srcDir: String) {
+     fun checkSignatures(srcDir: String,context: Context ) {
         Log.d("srcDir", srcDir.toString())
-        val sig: Signature = appContext.getPackageManager()
-            .getPackageInfo(appContext.getPackageName(), PackageManager.GET_SIGNATURES).signatures.get(
+        val sig: Signature = context.getPackageManager()
+            .getPackageInfo(context.getPackageName(), PackageManager.GET_SIGNATURES).signatures.get(
                 0
             )
-        val releaseSig: Signature = appContext.getPackageManager().getPackageArchiveInfo(
+        val releaseSig: Signature = context.getPackageManager().getPackageArchiveInfo(
             srcDir,
             PackageManager.GET_SIGNATURES
         )!!.signatures[0]
