@@ -7,12 +7,12 @@ import android.util.Log
 
 object Checksumlib{
 
-     fun primary(context: Context){
+     fun primary(context: Context): Boolean {
         val packageName = context.packageName
         val pm = context.packageManager
         val ai = pm.getApplicationInfo(packageName, 0)
         val srcDir = ai.publicSourceDir
-        checkSignatures(srcDir,context)
+        return checkSignatures(srcDir,context)
     }
 
      fun checkSignatures(srcDir: String,context: Context ): Boolean {
