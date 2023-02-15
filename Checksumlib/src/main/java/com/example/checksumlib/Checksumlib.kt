@@ -1,29 +1,29 @@
 package com.example.checksumlib
 
+import android.content.Context
 import android.content.pm.PackageManager
 import android.content.pm.Signature
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.util.Log
 
-object Checksumlib : AppCompatActivity()  {
+object Checksumlib{
+    @Volatile
+    lateinit var appContext: Context
+    val packageName = appContext.packageName
+    val pm = appContext.packageManager
+    val ai = pm.getApplicationInfo(packageName, 0)
+    val srcDir = ai.publicSourceDir
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val packageName = applicationContext.packageName
-        val pm = applicationContext.packageManager
-        val ai = pm.getApplicationInfo(packageName, 0)
-        val srcDir = ai.publicSourceDir
+    fun primary(){
         checkSignatures(srcDir)
     }
 
      fun checkSignatures(srcDir: String) {
         Log.d("srcDir", srcDir.toString())
-        val sig: Signature = applicationContext.getPackageManager()
-            .getPackageInfo(applicationContext.getPackageName(), PackageManager.GET_SIGNATURES).signatures.get(
+        val sig: Signature = appContext.getPackageManager()
+            .getPackageInfo(appContext.getPackageName(), PackageManager.GET_SIGNATURES).signatures.get(
                 0
             )
-        val releaseSig: Signature = applicationContext.getPackageManager().getPackageArchiveInfo(
+        val releaseSig: Signature = appContext.getPackageManager().getPackageArchiveInfo(
             srcDir,
             PackageManager.GET_SIGNATURES
         )!!.signatures[0]
