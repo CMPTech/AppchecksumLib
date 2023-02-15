@@ -15,7 +15,7 @@ object Checksumlib{
         checkSignatures(srcDir,context)
     }
 
-     fun checkSignatures(srcDir: String,context: Context ): String {
+     fun checkSignatures(srcDir: String,context: Context ): Boolean {
         Log.d("srcDir", srcDir.toString())
         val sig: Signature = context.getPackageManager()
             .getPackageInfo(context.getPackageName(), PackageManager.GET_SIGNATURES).signatures.get(
@@ -30,7 +30,8 @@ object Checksumlib{
 
         if(sig.hashCode().toString() == releaseSig.hashCode().toString() ){
 //            Log.d("signs", "iffffff")
-            return "Check-some completed"
-        } else return "Check-some not completed"
+            return true
+        }
+        else return false
     }
 }
