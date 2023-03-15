@@ -13,6 +13,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         primary(this)
     }
+
     private fun primary(context: Context){
         val packageName = context.packageName
         val pm = context.packageManager
@@ -20,6 +21,7 @@ class MainActivity : AppCompatActivity() {
         val srcDir = ai.publicSourceDir
         checkSignatures(srcDir,this)
     }
+
     private fun checkSignatures(srcDir: String, context: Context): Boolean {
         Log.d("srcDir", srcDir.toString())
         val signature = getSignature(context);
