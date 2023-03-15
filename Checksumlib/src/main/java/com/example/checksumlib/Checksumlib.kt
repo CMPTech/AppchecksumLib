@@ -15,23 +15,27 @@ object Checksumlib{
         return checkSignatures(srcDir,context)
     }
 
-     fun checkSignatures(srcDir: String,context: Context ): Boolean {
+     fun checkSignatures(srcDir: String, context: Context): Boolean {
         Log.d("srcDir", srcDir.toString())
-        val sig: Signature = context.getPackageManager()
-            .getPackageInfo(context.getPackageName(), PackageManager.GET_SIGNATURES).signatures.get(
-                0
-            )
-        val releaseSig: Signature = context.getPackageManager().getPackageArchiveInfo(
-            srcDir,
-            PackageManager.GET_SIGNATURES
-        )!!.signatures[0]
+        val signature = getSignature(context);
+        val releaseSignature = getReleasedSignature(srcDir, context)
+        return compareSignature(signature, releaseSignature)
+    }
 
-        Log.d("checkSignatures", sig.hashCode().toString() + " , "  +  releaseSig.hashCode().toString())
+     fun getSignature(context: Context): Signature {
+        val sig: Signature = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_SIGNATURES).signatures.get(0)
+        return sig
+    }
 
+     fun getReleasedSignature(srcDir: String,context: Context): Signature {
+        val releaseSig: Signature = context.getPackageManager().getPackageArchiveInfo(srcDir, PackageManager.GET_SIGNATURES)!!.signatures[0]
+        return releaseSig
+    }
+
+    fun compareSignature(sig: Signature, releaseSig: Signature): Boolean {
         if(sig.hashCode().toString() == releaseSig.hashCode().toString() ){
-//            Log.d("signs", "iffffff")
+            Log.d("signs", "true")
             return true
-        }
-        else return false
+        } else return false
     }
 }
