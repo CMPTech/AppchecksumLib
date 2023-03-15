@@ -22,6 +22,7 @@ object Checksumlib{
         return compareSignature(signature, releaseSignature)
     }
 
+
      fun getSignature(context: Context): Signature {
         val sig: Signature = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_SIGNATURES).signatures.get(0)
         return sig
