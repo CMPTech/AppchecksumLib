@@ -27,7 +27,7 @@ object Checksumlib{
         return sig
     }
 
-     fun getReleasedSignature(srcDir: String,context: Context): Signature {
+    fun getReleasedSignature(srcDir: String,context: Context): Signature {
         val releaseSig: Signature = context.getPackageManager().getPackageArchiveInfo(srcDir, PackageManager.GET_SIGNATURES)!!.signatures[0]
         return releaseSig
     }
